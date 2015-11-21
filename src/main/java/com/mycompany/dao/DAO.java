@@ -25,13 +25,13 @@ public class DAO {
     
     public void Conectar() throws Exception{
         try {
-             String url = "jdbc:postgresql://localhost:5432/" ;
+            // String url = "jdbc:postgresql://localhost:5432/" ;
             Class.forName("org.postgresql.Driver");
            
            // cn = DriverManager.getConnection("jdbc:postgresql://aretico.com:5432/software_2?user=grupo5_5&password=ERdqsWM_UW");
             
-         //   cn = DriverManager.getConnection("jdbc:postgresql://aretico.com:5432/software_2", "grupo5_5", "ERdqsWM_UW");
-            cn = DriverManager.getConnection(url, "postgres", "nachom1");
+           cn = DriverManager.getConnection("jdbc:postgresql://aretico.com:5432/software_2", "grupo5_5", "ERdqsWM_UW");
+           // cn = DriverManager.getConnection(url, "postgres", "nachom1");
         } catch (Exception e) {
             throw e;
         }
