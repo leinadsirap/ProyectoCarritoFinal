@@ -1,0 +1,120 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://java.sun.com/jsf/core">
+    
+    <body>
+
+        <ui:composition template="./WEB-INF/templates/plantilla.xhtml">
+
+           <ui:insert name="top">
+            
+                <h:form>
+                    <p:menubar>
+                        <p:menuitem value="Personas" url="faces/persona.xhtml"/>
+                        <p:menuitem value="Productos" url="faces/producto.xhtml"/>
+                        <p:menuitem value="Ventas" url="faces/venta.xhtml"/>
+                    </p:menubar>
+                </h:form>
+            
+            </ui:insert>
+
+            <ui:define name="content">
+                
+                 
+        <p:growl id="msj" showDetail="true" />       
+        <h:form id="frm">
+            <p:fieldset legend="Datos Personales" >
+                <h:panelGrid columns="2">
+                    <p:outputLabel for="txtCodigo" value="Codigo" />
+                    <p:inputText id="txtCodigo" value="#{personaBean.persona.codigo}" />
+                    
+                    <p:outputLabel for="txtNombre" value="Nombre" />
+                    <p:inputText id="txtNombre" value="#{personaBean.persona.nombre}" />
+
+                    <p:outputLabel value="Sexo" />
+                    <p:selectOneMenu value ="#{personaBean.persona.sexo}" >
+                        <f:selectItem itemLabel="Masculino" itemValue="M" />
+                        <f:selectItem itemLabel="Femenino" itemValue="F" />
+
+                    </p:selectOneMenu>
+                   
+                </h:panelGrid>
+            </p:fieldset>
+            <p:fieldset legend="Datos de la cuenta">
+                <h:panelGrid columns="2">
+                       <p:outputLabel value="Codigo"/>
+                       <p:inputText value="#{personaBean.user.codigo}" />
+                    
+                    <p:outputLabel value="Usuario"/>
+                    <p:inputText value="#{personaBean.user.nomUsuario}"/>
+
+                    <p:outputLabel value="Clave"/>
+                    <p:password id="clave1" value="#{personaBean.user.clave}" 
+                                validatorMessage="Las claves no coinciden"
+                                match="clave2" feedback="true" promptLabel="Ingrese una clave"/>
+
+                    <p:outputLabel value="Repetir Clave"/>
+                    <p:password id="clave2"/>
+                </h:panelGrid>
+                
+               
+            </p:fieldset>  
+            
+              <p:commandButton icon="ui-icon-check" value="Registar" actionListener="#{personaBean.registrar()}"  />
+              <p:commandButton  value="Listar" actionListener="#{personaBean.listar()}" update="data" />
+              
+              <p:dataTable id="data" value="#{personaBean.lstPersona}" var="persona">
+                    <p:column headerText="Codigo">
+                        <p:outputLabel value="#{persona.codigo}"/>
+                  </p:column>
+                  
+                  <p:column headerText="Nombre">
+                      <p:outputLabel value="#{persona.nombre}"/>
+                  </p:column>
+                  
+                    <p:column headerText="Sexo">
+                        <p:outputLabel value="#{persona.sexo}"/>
+                  </p:column>
+                  
+                  <p:column headerText="Modificar">
+                      <p:commandLink value="Modificar" actionListener="#{personaBean.leerID(persona)}" oncomplete="PF('wdlgDatos').show();" update=":dlgDatos"/>
+                  </p:column>
+                  
+                  <p:column headerText="Eliminar">
+                      <p:commandLink value="Eliminar" actionListener="#{personaBean.eliminar(persona)}"  update="data"/>
+                  </p:column>
+              </p:dataTable>
+        </h:form >
+        
+        <p:dialog header="Datos" widgetVar="wdlgDatos" id="dlgDatos">
+            <h:form >
+            <p:outputLabel  value="Codigo" />
+            <p:inputText  value="#{personaBean.persona.codigo}" />
+
+            <p:outputLabel value="Nombre" />
+            <p:inputText  value="#{personaBean.persona.nombre}" />
+
+            <p:outputLabel value="Sexo" />
+            <p:selectOneMenu value ="#{personaBean.persona.sexo}" >
+                <f:selectItem itemLabel="Masculino" itemValue="M" />
+                <f:selectItem itemLabel="Femenino" itemValue="F" />
+            </p:selectOneMenu>
+            
+            <p:commandButton icon="ui-icon-check" value="Modificar" actionListener="#{personaBean.modificar()}" oncomplete="PF('wdlgDatos').hide();" update=":frm:data"/>
+            <p:commandButton  value="Cancelar"  immediate="true" oncomplete="PF('wdlgDatos').hide();"/>
+                </h:form>
+        </p:dialog>
+            </ui:define>
+
+            <ui:define name="bottom">
+                  PROYECTO SOFTWARE 2
+            </ui:define>
+
+        </ui:composition>
+
+    </body>
+</html>
